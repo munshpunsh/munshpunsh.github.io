@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
-  <title>Калькулятор стоимости картин</title>
+  <title>MunshPunsh</title>
   <script src="https://code.jquery.com/jquery-3.1.0.js"></script>
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
   <style>
@@ -13,35 +13,50 @@
       .wrapper {
           max-width:1200px;
           margin: 0 auto;
+          display: flex;
+          flex-direction:column;
+          justify-content:center;
+          min-height:90vh;
       }
       p {
           text-align:center;
+      }
+      .wrapperCircle {
+          visibility:hidden;
+          min-height: 40px;
+      }
+      .sqCircle {
+        visibility:hidden;
+        min-height: 40px;
       }
       .h1 {
           font-size: 24px;
           font-weight: bold;
           margin:15px 0;
       }
-      input {display:block;margin:10px auto;}
+      input {display:block;margin:10px auto;width:150px;}
   </style>
 </head>
 <body>
     <div class="wrapper">
+    <div class="calcItem">
+        <p class="h1">Рассчёт стоимости круглой картины</p>
+        <p>Диаметр круглой картины должен быть кратен 10см и быть не меньше 30см</p>
+        <input id="circleCoastInput" type="number" placeholder="Введите диаметр">
+        <p class="wrapperCircle">Стоимость картины диаметром <b class="diametr"></b><br>
+            <b class="circleCoast"></b>
+        </p>
+    </div>
 
-    <p class="h1">Рассчёт стоимости круглой картины</p>
-    <input id="circleCoastInput" type="number" placeholder="Введи диаметр">
-    <p>Результат:</p>
-    <p>Стоимость картины диаметром <b class="diametr"></b> равна:<br>
-        <b class="circleCoast"></b>
-    </p>
-
-    <p class="h1">Рассчёт квадратной картины</p>
-    <input id="widthPic" type="number" placeholder="Введи длину">
-    <input id="heightPic" type="number" placeholder="Введи ширину">
-    <p>Результат:</p>
-    <p>Стоимость картины длиной <b class="width"></b> и шириной <b class="height"></b> равна:<br>
-        <b class="squareCoast"></b>
-    </p>
+    <div class="calcItem">
+        <p class="h1">Рассчёт квадратной(прямоугольный) картины</p>
+        <p>Ширина и длина картины должны быть кратны 5см и быть не меньше 30см</p>
+        <input id="widthPic" type="number" placeholder="Введите длину">
+        <input id="heightPic" type="number" placeholder="Введите ширину">
+        <p class="sqCircle">Стоимость картины <b class="width"></b>х<b class="height"></b><br>
+            <b class="squareCoast"></b>
+        </p>
+    </div>
     </div>
 
 
@@ -49,6 +64,14 @@
         var $ = window.jQuery;
         $('#circleCoastInput').change(function () {
             var diametr = $(this).val();
+            if (diametr < 30) {
+                diametr = 30;
+                $(this).val(diametr);
+            }
+            if (diametr % 10 != 0) {
+                diametr = diametr - (diametr % 10) + 10;
+                $(this).val(diametr);
+            }
             var plosad = 0.25 * 3.14 * (diametr * diametr);
             plosad = Math.floor(plosad);
             var coast = plosad * 2.9;
@@ -65,11 +88,23 @@
             coast = coast - (coast % 100) + 100;
             $('.diametr').text(diametr + 'см');
             $('.circleCoast').text(Math.floor(coast) + 'рублей');
+            $('.wrapperCircle').css('visibility','visible');
         });
 
         $('#heightPic').change(function () {
             var height = $(this).val();
             var width = $('#widthPic').val();
+            if (height < 30) {
+                height = 30;
+                $(this).val(height);
+            }
+            if (height % 5 != 0) {
+                height = height - (height % 5) + 5;
+                $(this).val(height);
+            }
+            if (width % 5 != 0) {
+                width = width - (width % 5) + 5;
+            }
             var plosad = width * height;
             plosad = Math.floor(plosad);
             var coast = plosad * 2.9;
@@ -87,11 +122,23 @@
             $('.width').text(width + 'см');
             $('.height').text(height + 'см');
             $('.squareCoast').text(Math.floor(coast) + 'рублей');
+            if (width > 0) {$('.sqCircle').css('visibility','visible');}
         });
 
         $('#widthPic').change(function () {
             var width = $(this).val();
             var height = $('#heightPic').val();
+            if (width < 30) {
+                width = 30;
+                $(this).val(width);
+            }
+            if (width % 5 != 0) {
+                width = width - (width % 5) + 5;
+                $(this).val(width);
+            }
+            if (height % 5 != 0) {
+                height = height - (height % 5) + 5;
+            }
             var plosad = width * height;
             plosad = Math.floor(plosad);
             var coast = plosad * 2.9;
@@ -109,6 +156,171 @@
             $('.width').text(width + 'см');
             $('.height').text(height + 'см');
             $('.squareCoast').text(Math.floor(coast) + 'рублей');
+            if (height > 0) {$('.sqCircle').css('visibility','visible');}
+        });
+
+    </script>
+
+</body>
+</html><!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>MunshPunsh</title>
+  <script src="https://code.jquery.com/jquery-3.1.0.js"></script>
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
+  <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+        }
+      .wrapper {
+          max-width:1200px;
+          margin: 0 auto;
+          display: flex;
+          flex-direction:column;
+          justify-content:center;
+          min-height:90vh;
+      }
+      p {
+          text-align:center;
+      }
+      .wrapperCircle {
+          visibility:hidden;
+          min-height: 40px;
+      }
+      .sqCircle {
+        visibility:hidden;
+        min-height: 40px;
+      }
+      .h1 {
+          font-size: 24px;
+          font-weight: bold;
+          margin:15px 0;
+      }
+      input {display:block;margin:10px auto;width:150px;}
+  </style>
+</head>
+<body>
+    <div class="wrapper">
+    <div class="calcItem">
+        <p class="h1">Рассчёт стоимости круглой картины</p>
+        <p>Диаметр круглой картины должен быть кратен 10см и быть не меньше 30см</p>
+        <input id="circleCoastInput" type="number" placeholder="Введите диаметр">
+        <p class="wrapperCircle">Стоимость картины диаметром <b class="diametr"></b><br>
+            <b class="circleCoast"></b>
+        </p>
+    </div>
+
+    <div class="calcItem">
+        <p class="h1">Рассчёт квадратной(прямоугольный) картины</p>
+        <p>Ширина и длина картины должны быть кратны 5см и быть не меньше 30см</p>
+        <input id="widthPic" type="number" placeholder="Введите длину">
+        <input id="heightPic" type="number" placeholder="Введите ширину">
+        <p class="sqCircle">Стоимость картины <b class="width"></b>х<b class="height"></b><br>
+            <b class="squareCoast"></b>
+        </p>
+    </div>
+    </div>
+
+
+    <script>
+        var $ = window.jQuery;
+        $('#circleCoastInput').change(function () {
+            var diametr = $(this).val();
+            if (diametr < 30) {
+                diametr = 30;
+                $(this).val(diametr);
+            }
+            if (diametr % 10 != 0) {
+                diametr = diametr - (diametr % 10) + 10;
+                $(this).val(diametr);
+            }
+            var plosad = 0.25 * 3.14 * (diametr * diametr);
+            plosad = Math.floor(plosad);
+            var coast = plosad * 2.9;
+
+            if (diametr >= 70) {
+                coast = coast * 1.5
+            } else if (diametr >= 60) {
+                coast = coast * 1.4
+            } else if (diametr >= 50 ) {
+                coast = coast * 1.33
+            } else if (diametr >= 40) {
+                coast = coast * 1.1
+            }
+            coast = coast - (coast % 100) + 100;
+            $('.diametr').text(diametr + 'см');
+            $('.circleCoast').text(Math.floor(coast) + 'рублей');
+            $('.wrapperCircle').css('visibility','visible');
+        });
+
+        $('#heightPic').change(function () {
+            var height = $(this).val();
+            var width = $('#widthPic').val();
+            if (height < 30) {
+                height = 30;
+                $(this).val(height);
+            }
+            if (height % 5 != 0) {
+                height = height - (height % 5) + 5;
+                $(this).val(height);
+            }
+            if (width % 5 != 0) {
+                width = width - (width % 5) + 5;
+            }
+            var plosad = width * height;
+            plosad = Math.floor(plosad);
+            var coast = plosad * 2.9;
+
+            if (plosad >= 3848) {
+                coast = coast * 1.5
+            } else if (plosad >= 2827) {
+                coast = coast * 1.4
+            } else if (plosad >= 1963 ) {
+                coast = coast * 1.33
+            } else if (plosad >= 1256) {
+                coast = coast * 1.1
+            }
+            coast = coast - (coast % 100) + 100;
+            $('.width').text(width + 'см');
+            $('.height').text(height + 'см');
+            $('.squareCoast').text(Math.floor(coast) + 'рублей');
+            if (width > 0) {$('.sqCircle').css('visibility','visible');}
+        });
+
+        $('#widthPic').change(function () {
+            var width = $(this).val();
+            var height = $('#heightPic').val();
+            if (width < 30) {
+                width = 30;
+                $(this).val(width);
+            }
+            if (width % 5 != 0) {
+                width = width - (width % 5) + 5;
+                $(this).val(width);
+            }
+            if (height % 5 != 0) {
+                height = height - (height % 5) + 5;
+            }
+            var plosad = width * height;
+            plosad = Math.floor(plosad);
+            var coast = plosad * 2.9;
+
+            if (plosad >= 3848) {
+                coast = coast * 1.5
+            } else if (plosad >= 2827) {
+                coast = coast * 1.4
+            } else if (plosad >= 1963 ) {
+                coast = coast * 1.33
+            } else if (plosad >= 1256) {
+                coast = coast * 1.1
+            }
+            coast = coast - (coast % 100) + 100;
+            $('.width').text(width + 'см');
+            $('.height').text(height + 'см');
+            $('.squareCoast').text(Math.floor(coast) + 'рублей');
+            if (height > 0) {$('.sqCircle').css('visibility','visible');}
         });
 
     </script>
