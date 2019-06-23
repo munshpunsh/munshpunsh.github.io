@@ -1,0 +1,1 @@
+{"version":3,"sources":["app.css"],"names":[],"mappings":"AAAA,eACI,YAAa,CAGjB,6BAFI,iBAAmB","file":"static/css/main.a0093bb9.css","sourcesContent":[".padding-paper {\r\n    padding:10px;\r\n    text-align: center;\r\n}\r\n.align-center {\r\n    text-align: center;\r\n}\n\n\n// WEBPACK FOOTER //\n// ./src/app.css"],"sourceRoot":""}
